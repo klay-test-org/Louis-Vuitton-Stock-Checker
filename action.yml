@@ -1,0 +1,30 @@
+name: Louis Vuitton Stock Checker
+author: klay-ke
+description: Louis Vuitton Stock Checker
+inputs:
+  sender-email-service:
+    description: Sender email service, e.g gmail.
+    required: true
+  sender-username:
+    description: Sender email address.
+    required: true
+  sender-password:
+    description: Sender email password.
+    required: true
+  product:
+    description: Product ID, e.g. nvprod3150035v
+    required: true
+  product-link:
+    description: Product ID, e.g https://us.louisvuitton.com/eng-us/products/lv-trainer-sneaker-nvprod3150035v
+    required: true
+  sku-id:
+    description: Sku ID, e.g. 1A9JGP.
+    required: false
+  receiverEmail:
+    description: Receiver email address.
+branding:
+  color: red
+  icon: bell
+runs:
+  using: node14
+  main: 'main.js'
