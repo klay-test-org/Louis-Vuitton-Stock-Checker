@@ -38,7 +38,8 @@ const sendEmail = () => {
     });
 }
 
-exec(cmd, function (_error, stdout) {
+exec.exec(cmd)
+.then((_error, stdout) => {
     const json = JSON.parse(stdout).skuAvailability.find(elem => elem.skuId === skuId);
     console.log(stdout);
     if (json && json.inStock) {
