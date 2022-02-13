@@ -20,7 +20,7 @@ inputs:
   sku-id:
     description: Sku ID, e.g. 1A9JGP.
     required: false
-  receiverEmail:
+  receiver-email:
     description: Receiver email address.
 branding:
   color: red
