@@ -8,6 +8,7 @@ const senderUsername = github.getOctokit(core.getInput('sender-username'));
 const senderPassword = github.getOctokit(core.getInput('sender-password'));
 
 const product = github.getOctokit(core.getInput('product'));
+console.log(JSON.stringify(product))
 const productLink = github.getOctokit(core.getInput('product-link'));
 const skuId = github.getOctokit(core.getInput('sku-id'));
 const receiverEmail = github.getOctokit(core.getInput('receiver-email'));
