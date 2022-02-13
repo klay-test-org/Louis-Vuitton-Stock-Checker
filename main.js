@@ -12,7 +12,8 @@ const productLink = core.getInput('product-link');
 const skuId = core.getInput('sku-id');
 const receiverEmail = core.getInput('receiver-email');
 
-const cmd = `curl 'https://api.louisvuitton.com/api/eng-us/catalog/availability/${product}' -k -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36' --compressed`;
+
+const args = ['-k', '-H', 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36', '--compressed'];
 const sendEmail = () => {
     const transporter = nodemailer.createTransport({
         service: senderEmailService,
@@ -38,7 +39,7 @@ const sendEmail = () => {
     });
 }
 
-exec.exec(cmd)
+exec.exec("curl", args)
 .then((_error, stdout) => {
     const json = JSON.parse(stdout).skuAvailability.find(elem => elem.skuId === skuId);
     console.log(stdout);
