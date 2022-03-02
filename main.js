@@ -1,31 +1,25 @@
-const { exec } = require("child_process");
-
-exec("/usr/bin/curl 'https://api.louisvuitton.com/api/eng-us/catalog/availability/nvprod3150035v' -k -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36' --compressed", (error, stdout, stderr) => {
-    if (error) {
-        console.log(`error: ${error.message}`);
-    }
-    if (stderr) {
-        console.log(`stderr: ${stderr}`);
-    }
-    console.log(`stdout: ${stdout}`);
-});
-
-
+const request = require('request');
 const github = require('@actions/github');
-// const exec = require('@actions/exec');
 const core = require('@actions/core');
 const nodemailer = require('nodemailer');
 
 const senderEmailService = core.getInput('sender-email-service');
 const senderUsername = core.getInput('sender-username');
 const senderPassword = core.getInput('sender-password');
-
-const product = core.getInput('product');
-const productLink = core.getInput('product-link');
 const skuId = core.getInput('sku-id');
 const receiverEmail = core.getInput('receiver-email');
 
-const args = [`https://api.louisvuitton.com/api/eng-us/catalog/availability/${product}`, '-k', '-H', 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36', '--compressed'];
+const options = {
+  'method': 'POST',
+  'url': 'https://shop.tesla.com/inventory.json',
+  'headers': {
+    'content-type': 'application/json'
+  },
+  body: JSON.stringify([
+    skuId
+  ])
+};
+
 const sendEmail = () => {
     const transporter = nodemailer.createTransport({
         service: senderEmailService,
@@ -36,12 +30,12 @@ const sendEmail = () => {
     });
 
     const mailOptions = {
-        from: 'Louis Vuitton Stock <' + senderUsername + '>',
+        from: 'Tesla Stock <' + senderUsername + '>',
         to: receiverEmail,
         subject: 'The Item You Subscribe is Available Now',
-        text: productLink + '#' + skuId
+        text: 'https://shop.tesla.com/product/gen-2-nema-adapters'
     };
-    
+
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
             console.log(error);
@@ -51,14 +45,9 @@ const sendEmail = () => {
     });
 }
 
-
-
-// exec.exec("curl", args)
-// .then((_error, stdout) => {
-//     const json = JSON.parse(stdout).skuAvailability.find(elem => elem.skuId === skuId);
-//     console.log(stdout);
-//     if (json && json.inStock) {
-//         sendEmail();
-//     }
-// });
-
+request(options, function (error, response) {
+  if (error) throw new Error(error);
+  if (JSON.parse(response.body)[0].purchasable === true) {
+    sendMail();
+  }
+});

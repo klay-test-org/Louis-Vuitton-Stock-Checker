@@ -1,6 +1,6 @@
-name: Louis Vuitton Stock Checker
+name: Tesla Stock Checker
 author: klay-ke
-description: Louis Vuitton Stock Checker
+description: Tesla Stock
 inputs:
   sender-email-service:
     description: Sender email service, e.g gmail.
@@ -10,12 +10,6 @@ inputs:
     required: true
   sender-password:
     description: Sender email password.
-    required: true
-  product:
-    description: Product ID, e.g. nvprod3150035v
-    required: true
-  product-link:
-    description: Product ID, e.g https://us.louisvuitton.com/eng-us/products/lv-trainer-sneaker-nvprod3150035v
     required: true
   sku-id:
     description: Sku ID, e.g. 1A9JGP.
